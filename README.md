@@ -9,6 +9,6 @@ proposed UAMS system helps universities to efficiently and accurately track stud
 
 ## Technologies Used
 
--Frontend: React.js, Material UI, Redux
--Backend: Node.js, Express.js
--Database: MongoDB
+- Frontend: React.js, Material UI, Redux
+- Backend: Node.js, Express.js
+- Database: MongoDB
