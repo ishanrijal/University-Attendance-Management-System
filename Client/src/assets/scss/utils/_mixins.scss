@@ -1,0 +1,45 @@
+@mixin flex($direction: row, $justify: flex-start, $align: stretch) {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: $direction;
+       -moz-box-orient: vertical;
+       -moz-box-direction: normal;
+        -ms-flex-direction: $direction;
+            flex-direction: $direction;
+    -webkit-box-pack: $justify;
+    -webkit-justify-content: $justify;
+       -moz-box-pack: $justify;
+        -ms-flex-pack: $justify;
+            justify-content: $justify;
+    -webkit-box-align: $align;
+    -webkit-align-items: $align;
+       -moz-box-align: $align;
+        -ms-flex-align: $align;
+            align-items: $align;
+  }
+  @mixin padding($top: 0, $right: null, $bottom: null, $left: null) {
+    @if $bottom == null {
+      // If only two parameters are provided, apply the same padding to top/bottom and right/left
+      padding: $top $right;
+    } @else {
+      // If four parameters are provided, apply individual paddings
+      padding-top: $top;
+      padding-right: $right;
+      padding-bottom: $bottom;
+      padding-left: $left;
+    }
+  }
+
+ 
+
+
+
+/*
+To use mixin, we can use @include 
+->In the css, add @include mixin_name
+*/

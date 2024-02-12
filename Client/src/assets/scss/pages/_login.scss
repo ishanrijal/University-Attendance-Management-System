@@ -1,0 +1,23 @@
+.login-page{
+    background: $background-color;
+}
+.login-container{
+   
+
+    & .login-form{
+        width: 80%;
+        background: $background-color-white;
+        margin-top: 100px;
+        display: inline-flex;
+        @include padding(48px);
+        @include flex(column, null, flex-start);
+
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.13);
+
+        & form{
+            @include flex(column);
+        }
+
+    }
+}

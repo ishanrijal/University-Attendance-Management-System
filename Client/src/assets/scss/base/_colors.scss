@@ -1,0 +1,22 @@
+/*
+
+Define color variables and related color classes 
+for consistent usage across the application.
+
+*/
+
+$primary-color: #012970;
+$secondary-color: #2ecc71;
+
+$color-white:#FFFFFF;
+
+// bg and text colors
+$background-color-white:$color-white;
+$background-color: #F0F4FB;
+
+
+// semantic colors
+$success-color: #198754;
+$error-color: #DC3545;
+$warning-color: #f39c12;
+$info-color: #17a2b8;
