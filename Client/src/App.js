@@ -32,11 +32,11 @@ export default App;
 const Root = () => {
   return (
     <>
-      {/* <div>
+      <div>
         <Link to="/">Home</Link>
         <br />
         <Link to="/login">Login</Link>
-      </div> */}
+      </div> 
       <div>
         <Outlet />
       </div>

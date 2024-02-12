@@ -13,3 +13,9 @@ Link: https://drive.google.com/file/d/11WUNv4pRvolMb6HLSEud5HVmlbvoaU4H/view?usp
 - Frontend: React.js
 - Backend: Node.js, Express.js
 - Database: MongoDB
+
+## How to Run the Project
+Follow the following steps to run the project
+- Clone the Repo
+- Navigate to the local directoy
+- Run "npm start"
