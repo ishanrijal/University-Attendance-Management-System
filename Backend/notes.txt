@@ -1,0 +1,7 @@
+Database Details
+
+DB USER
+username: ishanrijal
+password: oJalc4J6CiJeb5si 
+
+db: mongodb+srv://ishanrijal:<password>@cluster0.xysejxc.mongodb.net/?retryWrites=true&w=majority
