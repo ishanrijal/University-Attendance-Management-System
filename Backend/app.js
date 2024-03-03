@@ -1,15 +1,16 @@
+// Dotenvt file configuation
+require('dotenv').config();
 //Express
 const express = require("express");
 const mongoose = require('mongoose');
 
 const app = express();
 //Listening Port
-const port = process.env.port || 3005;
-
-const DB='mongodb+srv://ishanrijal:oJalc4J6CiJeb5si@cluster0.xysejxc.mongodb.net/?retryWrites=true&w=majority'
+const port = process.env.PORT || 3001;
 
 //Connecting to the mongodb
-mongoose.connect(DB)
+mongoose.connect(process.env.MONGO_URI)
+
 .then(()=>console.log("Connected Successfully to the DB"))
 .catch(error=>console.log("Connection Failed",error));
 
