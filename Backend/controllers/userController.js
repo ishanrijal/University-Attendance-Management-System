@@ -1,11 +1,31 @@
-const Admin =require('../models/adminSchema');
+const User =require('../models/adminSchema');
 
-exports.adminLogin = async (req,res)=>{
-  res.send("You are in the Admin Login Route...");
-}
+module.exports.register= async(req,res,next)=>{
+  try{
+    const {username, email, password, role}=req.body;
+    
+    const userNameCheck=await User.findOne({username});
+    //Check whether username already exit or not
+    if(userNameCheck) res.json({msg:"Username already Exit"});
+
+    const emailCheck=await User.findOne({email});
+    //check whether email already exist or not
+    if(emailCheck) res.json({msg:"Email already exist."});
+
+    const userInfo= await User.create({username,email,password});
+    //Removing the password form the userInfo before sending the response
+    delete userInfo.password;
+    return res.json({userInfo});
+
+  }catch(err){
+    console.log(err)
+  }
+};
 
 
-
+// exports.adminLogin = async (req,res)=>{
+//   res.send("You are in the Admin Login Route...");
+// }
 
 
 // const User = require("../models/User");

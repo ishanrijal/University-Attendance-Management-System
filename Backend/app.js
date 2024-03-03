@@ -10,8 +10,13 @@ const port = process.env.PORT || 3001;
 
 //Connecting to the mongodb
 mongoose.connect(process.env.MONGO_URI)
-
-.then(()=>console.log("Connected Successfully to the DB"))
+.then(()=>{
+  console.log("Connected Successfully to the DB");
+  //After Successfully connected to DB, running the Node App
+  app.listen(port, () => {
+    console.log(`Listening the port at ${port}`);
+  });
+})
 .catch(error=>console.log("Connection Failed",error));
 
 // import all the routes here
@@ -22,9 +27,7 @@ app.use(adminRoute);
 
 
 app.get("/", (req, res) => {
-  res.send("Server is running...");
+  res.send("NODE Server is running...");
 });
 
-app.listen(port, () => {
-  console.log(`Listening the port at ${port}`);
-});
+
