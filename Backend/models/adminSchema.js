@@ -1,16 +1,22 @@
 const mongoose = require('mongoose');
 
 const adminSchema= new mongoose.Schema({
-    username:{
+    firstName:{
+        type:String,
+        required: true,
+    },
+    lastName:{
+        type:String,
+        required: true,
+    },
+    regNumber:{
         type: String,
         required: true,
-        min:4,
-        max:20,
     },
     email:{
         type: String,
         required: true,
-        unique:true,
+        //unique:true,
     },
     password:{
         type: String,
@@ -21,6 +27,10 @@ const adminSchema= new mongoose.Schema({
         type: String,
         enum: ['admin', 'student', 'teacher'],
         required: true
-    }
+    },
+    created_at: { 
+        type: Date, 
+        default: Date.now   // Automatically add the current date/time
+    },
 });
 module.exports=mongoose.model("User", adminSchema);

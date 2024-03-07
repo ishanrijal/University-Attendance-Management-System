@@ -2,23 +2,24 @@ const User =require('../models/adminSchema');
 
 module.exports.register= async(req,res,next)=>{
   try{
-    const {username, email, password, role}=req.body;
-    
-    const userNameCheck=await User.findOne({username});
-    //Check whether username already exit or not
-    if(userNameCheck) res.json({msg:"Username already Exit"});
-
-    const emailCheck=await User.findOne({email});
-    //check whether email already exist or not
-    if(emailCheck) res.json({msg:"Email already exist."});
-
-    const userInfo= await User.create({username,email,password});
-    //Removing the password form the userInfo before sending the response
-    delete userInfo.password;
-    return res.json({userInfo});
-
-  }catch(err){
-    console.log(err)
+    const {role,firstName,lastName,regNumber,email,password}=req.body;
+    const regNumberCheck = await User.findOne({regNumber});
+    if( regNumberCheck ) {
+     return res
+            .status(400)
+            .json({msg:"User Already Exit"});
+    }
+    const userInfo= await User.create({role,firstName,lastName,regNumber,email,password});
+    // If the user is successfully created, send a success message
+    return res
+            .status(200)
+            .json({ msg: "User created successfully", userInfo });
+  }catch(error){
+    console.log("In the error")
+    console.log(error)
+    return res
+           .status(500)
+           .json({ error: "Internal Server Error" });
   }
 };
 
