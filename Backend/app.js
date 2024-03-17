@@ -10,6 +10,7 @@ app.use(cors());
 
 // Parse JSON request
 app.use(bodyParser.json());
+
 //Listening Port
 const port = process.env.PORT || 3001;
 
@@ -25,10 +26,10 @@ mongoose.connect(process.env.MONGO_URI)
 .catch(error=>console.log("Connection Failed",error));
 
 // import all the routes here
-const adminRoute = require( './routes/adminRoutes' );
+const userRoutes = require( './routes/userRoutes' );
 
-//Use all the routes here
-app.use(adminRoute);
+// use all the routes here
+app.use( '/api/user', userRoutes);
 
 
 app.get("/", (req, res) => {

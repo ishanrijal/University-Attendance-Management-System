@@ -1,10 +1,39 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
+  const [role, setRole]         = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLoginForm = async (e) =>{
+    e.preventDefault();
+    console.log("PRessed")
+    if( role && username && password ){
+      try {
+        const response = await axios.post('http://localhost:3005/api/user/login', { username, password });
+        const { token } = response.data;
+        console.log("Hey pressed");
+        console.log(token);
+        console.log(response);
+
+        // Store the token in localStorage (need to change to session storage)
+        localStorage.setItem('token', token); 
+
+        // Redirect
+        window.location.href = '/'; 
+      } catch (error) {
+        // Handle login error
+        if (error.response) {
+          console.error('Login failed:', error.response.data.msg);
+        } else {
+          console.error('Login failed:', error.message);
+        }
+      } 
+    }
+  }
 
   return (
     <div className="login-page">
@@ -21,13 +50,15 @@ export default function Login() {
             </p>
           </div>
           <div className="col-sm-6 ">
-            <form className="login-form">
+            <form className="login-form" onSubmit={handleLoginForm}>
               <div className="form-choice-container">
                 <input
                   type="radio"
                   id="teacher"
                   name="choice"
                   value="teacher"
+                  onChange={(e)=> setRole(e.target.value)}
+                  required
                 />
                 <label for="teacher">Teacher</label>
                 <input
@@ -35,6 +66,8 @@ export default function Login() {
                   id="student"
                   name="choice"
                   value="student"
+                  onChange={(e)=> setRole(e.target.value)}
+                  required
                 />
                 <label for="student">Student</label>
               </div>
@@ -47,6 +80,7 @@ export default function Login() {
                   placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  required
                 />
               </div>
               <div className="form-password-container">
@@ -57,6 +91,7 @@ export default function Login() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
 
@@ -66,7 +101,7 @@ export default function Login() {
               </div>
 
               <div className="form-btn">
-                <button type="button">Login</button>
+                <button type="submit">Login</button>
               </div>
 
               <div className="form-bottom">

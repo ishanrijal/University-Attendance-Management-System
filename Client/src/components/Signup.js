@@ -12,32 +12,55 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole]= useState("");
 
-  const [roleError, setRoleError]= useState(false);
-  const [firNameError, setFirstNameError]= useState(false);
-  const [lastNameError, setLastNameError]= useState(false);
   const [regNumberError, setRegNumberError]= useState(false);
   const [emailError, setEmailError]= useState(false);
   const [passwordError, setPasswordError]= useState(false);
 
-  const handleRoleChange=(e)=>{
-    setRole(e.target.value);
+
+  const handleEmail=(e)=>{
+        setEmail(e.target.value);
+        setEmailError(false);
+  }
+  const handlePassword=(e)=>{
+    setPassword(e.target.value);
+    setPasswordError(false);  //hiding the password not match message
+    
+  }
+  const handleConfirmPassword=(e)=>{
+    const confirmPass=e.target.value;
+    setConfirmPassword(confirmPass);
+    setPasswordError(prevState=>{
+      if( password!==confirmPass ){
+        return true;
+      }else{
+        return false;
+      }
+    })
   }
   const handleFormSubmit=(e)=>{
     e.preventDefault();
-    if( !role || !firstName || !lastName || !regNumber || !email || !password ){
-        if(!role) setRoleError(true);
-        if(!firstName) setFirstNameError(true);
-        if(!lastName) setLastNameError(true);
-        if(!regNumber) setRegNumberError(true);
-        if(!email) setEmailError(true);
-        if(!password) setPasswordError(true);
-        
+    
+    // Reset error states
+    setRegNumberError(false);
+    setEmailError(false);
+    setPasswordError(false);
+    if( !role || !firstName || !lastName || !regNumber || !email || (password !== confirmPassword) ){
+        if( !role ) return;
+        if( !firstName ) return;
+        if( !lastName ) return;
+        if( !regNumber ) return;
+        if( !email ) setEmailError(true);
+        if( password !== confirmPassword ) setPasswordError(true);
         return ;
     }
     const registerInfo={role, firstName, lastName, regNumber, email, password}
-    alert(`Form submitted: ${registerInfo}`);
-    axios.post( 'http://localhost:3005/register', registerInfo)
-    .then(res=>{console.log(res)});
+    axios.post( 'http://localhost:3005/api/user/register', registerInfo)
+         .then(res=>{
+            alert(res.data.msg);
+          })
+         .catch(error=>{
+            alert(error.response.data.msg);
+          });
   }
 
   return (
@@ -62,7 +85,8 @@ export default function Signup() {
                   id="teacher"
                   name="choice"
                   value="teacher"
-                  onChange={handleRoleChange}
+                  onChange={(e)=> setRole(e.target.value)}
+                  required
                 />
                 <label for="teacher">Teacher</label>
                 <input
@@ -70,7 +94,8 @@ export default function Signup() {
                   id="student"
                   name="choice"
                   value="student"
-                  onChange={handleRoleChange}
+                  onChange={(e)=> setRole(e.target.value)}
+                  required
                 />
                 <label for="student">Student</label>
                 <input
@@ -78,7 +103,8 @@ export default function Signup() {
                   id="admin"
                   name="choice"
                   value="admin"
-                  onChange={handleRoleChange}
+                  onChange={(e)=> setRole(e.target.value)}
+                  required
                 />
                 <label for="admin">Admin</label>
               </div>
@@ -90,7 +116,8 @@ export default function Signup() {
                   name="first-name"
                   placeholder="First Name"
                   value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={(e)=>setFirstName(e.target.value)}
+                  required
                 />
               </div>
               <div className="form-user-container">
@@ -100,7 +127,8 @@ export default function Signup() {
                   name="last-name"
                   placeholder="Last Name"
                   value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={(e)=>setLastName(e.target.value)}
+                  required
                 />
               </div>
               <div className="form-user-container">
@@ -110,7 +138,8 @@ export default function Signup() {
                   name="reg-number"
                   placeholder="Registration Number"
                   value={regNumber}
-                  onChange={(e) => setRegNumber(e.target.value)}
+                  onChange={(e)=> setRegNumber(e.target.value)}
+                  required
                 />
               </div>
               <div className="form-user-container">
@@ -120,7 +149,8 @@ export default function Signup() {
                   name="email"
                   placeholder="Email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleEmail}
+                  required
                 />
               </div>
               <div className="form-password-container">
@@ -130,7 +160,8 @@ export default function Signup() {
                   name="password"
                   placeholder="Password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handlePassword}
+                  required
                 />
               </div>
               <div className="form-password-container">
@@ -140,8 +171,10 @@ export default function Signup() {
                   name="confirm-password"
                   placeholder="Confirm Password"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={handleConfirmPassword}
+                  required
                 />
+                <p>{passwordError ? "Password Didn't Match": ""}</p>
               </div>
               <div className="form-btn">
                 <button type="submit">Signup</button>
