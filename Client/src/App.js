@@ -11,14 +11,31 @@ import {
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Dashboard from "./components/Dashboard";
+import EmailVerification from "./components/EmailVerification";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Profile from "./components/Profile";
+import Report from "./components/Report";
+import Attendance from "./components/Attendance";
+import QrCode from "./components/QrCode";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root />}>
-        <Route index element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+      <Route>
+        <Route path="/*" element={<Root />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="verify-email" element={<EmailVerification />} />
+          <Route path="signup" element={<Signup />} />
+        </Route>
+        <Route path="/profile/*" element={<Profile />} >
+          <Route index element={<Dashboard />} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="generate-qrscanner" element={<QrCode />} />
+          <Route path="report" element={<Report />} />
+        </Route>
       </Route>
     )
   );
@@ -33,18 +50,10 @@ export default App;
 
 const Root = () => {
   return (
-    <>
-      <div>
-        <Link to="/">Home</Link>
-        <br/>
-        <Link to="/login">Login</Link>
-        <br/>
-        <Link to="/signup">Signup</Link>
-        <br/>
-      </div> 
-      <div>
-        <Outlet />
-      </div>
-    </>
+    <main className="main-con">
+    <Header/>
+      <Outlet />
+    <Footer/>
+    </main>
   );
 };

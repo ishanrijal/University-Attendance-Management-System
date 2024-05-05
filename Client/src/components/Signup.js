@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "./Header";
-import { Link } from "react-router-dom";
+
 import axios from 'axios';
 
 export default function Signup() {
+  const location = useLocation();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [regNumber, setRegNumber] = useState("");
@@ -16,6 +19,12 @@ export default function Signup() {
   const [emailError, setEmailError]= useState(false);
   const [passwordError, setPasswordError]= useState(false);
 
+  useEffect(() => {
+    // Access email from location state
+    if (location.state && location.state.email) {
+      setEmail(location.state.email);
+    }
+  }, [location.state]);
 
   const handleEmail=(e)=>{
         setEmail(e.target.value);
@@ -65,50 +74,40 @@ export default function Signup() {
 
   return (
     <div className="signup-page">
-      <Header />
-      <div className="container signup-container">
-        <div className="row">
-          <div className="col-sm-6">
+      <div className="container-fluid signup-container">
+        <div className="row custom-row">
+          <div className="col-sm-6 signup-left-container">
             <h1>Signup</h1>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it.
+             Signup
             </p>
           </div>
           <div className="col-sm-6 ">
             <form className="signup-form" onSubmit={handleFormSubmit}>
               <div className="form-choice-container">
-                <input
-                  type="radio"
-                  id="teacher"
-                  name="choice"
-                  value="teacher"
-                  onChange={(e)=> setRole(e.target.value)}
-                  required
-                />
-                <label for="teacher">Teacher</label>
-                <input
-                  type="radio"
-                  id="student"
-                  name="choice"
-                  value="student"
-                  onChange={(e)=> setRole(e.target.value)}
-                  required
-                />
-                <label for="student">Student</label>
-                <input
-                  type="radio"
-                  id="admin"
-                  name="choice"
-                  value="admin"
-                  onChange={(e)=> setRole(e.target.value)}
-                  required
-                />
-                <label for="admin">Admin</label>
+                <div className="role">
+                  <input
+                    type="radio"
+                    id="teacher"
+                    name="choice"
+                    value="teacher"
+                    onChange={(e)=> setRole(e.target.value)}
+                    required
+                  />
+                  <label for="teacher">Teacher</label>
+                </div>
+                <div className="role">
+                  <input
+                    type="radio"
+                    id="student"
+                    name="choice"
+                    value="student"
+                    onChange={(e)=> setRole(e.target.value)}
+                    required
+                  />
+                  <label for="student">Student</label>
+                </div>
               </div>
-
               <div className="form-user-container">
                 <label for="first-name">First Name</label>
                 <input
@@ -145,6 +144,7 @@ export default function Signup() {
               <div className="form-user-container">
                 <label for="email">Email</label>
                 <input
+                  disabled
                   type="email"
                   name="email"
                   placeholder="Email"
@@ -177,7 +177,7 @@ export default function Signup() {
                 <p>{passwordError ? "Password Didn't Match": ""}</p>
               </div>
               <div className="form-btn">
-                <button type="submit">Signup</button>
+                <button type="submit">Sign up</button>
               </div>
             </form>
           </div>

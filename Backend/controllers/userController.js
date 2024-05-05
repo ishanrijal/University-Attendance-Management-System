@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User =require('../models/adminSchema');
+const User =require('../models/user');
 
 // need to keep it safe
 const secretKey = "a048cede314a5295d3f83f9d8b34c8e375aa7c68ae29de3ffa5908e425719bf0";
@@ -34,12 +34,15 @@ const register= async(req,res,next)=>{
 const login= async(req, res)=>{
   try{
     const { username, password } = req.body;
-    const user = await User.findOne({username});
+
+    const user = await User.findOne({email: username});
 
     if(!user) return res.status(404).json({msg: "User not found..." });
 
     // Compare password
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    const isPasswordMatch = (password == user.password) ? true : false;
+    //await bcrypt.compare(password, user.password);
+
     if (!isPasswordMatch) {
       return res.status(401).json({ msg: "Invalid credentials" });
     }
