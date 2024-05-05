@@ -16,14 +16,19 @@
 @import 'layout/header';
 @import 'layout/footer';
 @import 'layout/navigation';
+@import 'layout/page-layout';
 
 // Components
 @import 'components/buttons';
+@import 'components/breadcrumb';
 //@import 'components/forms';
-//@import 'components/cards';
+@import 'components/cards';
 //@import 'components/modals';
+
+
 
 //Pages
 @import 'pages/login';
+@import 'pages/dashboard';
 
 

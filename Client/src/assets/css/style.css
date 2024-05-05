@@ -67,6 +67,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+a {
+  text-decoration: none;
+  transition: all ease 0.35s; }
+
 /*
 
 Define typography styles such as font families, 
@@ -74,8 +78,11 @@ font sizes, font weights, and other
 text-related styles.
 
 */
+body {
+  font-family: "Roboto", sans-serif; }
+
 h1, h2, h3, h4, h5, h6 {
-  font-family: Roboto;
+  font-family: "Arial", sans-serif;
   font-style: normal; }
 
 h1 {

@@ -82,43 +82,43 @@ const QrCode = () => {
     }, [startTime, elapsedTime]);
 
   return (
-    <div className='container'>
+    <div className='container py-5'>
       <div className='row'>
         <div className='col-sm-12'>
-          <h1>Take Attendance</h1>
+          <h1 className='mb-2'>Take Attendance</h1>
         </div>
-        <div style={{display: missingValue ? 'flex' : 'none' } } >
+        <div style={{display: missingValue ? 'flex' : 'none' } }>
             {missingValue && (
-            <p>{missingValue}</p>
+            <p className='text-danger'>{missingValue}</p>
             )}
         </div>
-        <div className='col-sm-12 attendance-box-container'>
+        <div className='col-sm-12 attendance-box-container mb-4'>
           <div className="box">
-            <label htmlFor="subject">Subject</label>
-            <select id="subject" name="subject" value={subject} onChange={handleChange}>
+            <label htmlFor="subject" className='mb-2'>Subject</label>
+            <select className="form-select" id="subject" name="subject" value={subject} onChange={handleChange}>
               <option value="3031">Subject 1</option>
               <option value="3032">Subject 2</option>
             </select>
           </div>
 
           <div className="box">
-            <label htmlFor="faculty">Faculty</label>
-            <select id="faculty" name="moduleCode" value={moduleCode} onChange={handleChange}>
+            <label htmlFor="faculty" className='mb-2'>Faculty</label>
+            <select className="form-select" id="faculty" name="moduleCode" value={moduleCode} onChange={handleChange}>
               <option value="111">Computing & IT</option>
               <option value="112">Finance</option>
             </select>
           </div>
 
           <div className="box">
-            <label htmlFor="year">Year</label>
-            <select id="year" name="classID" value={classID} onChange={handleChange}>
+            <label htmlFor="year" className='mb-2'>Year</label>
+            <select className="form-select" id="year" name="classID" value={classID} onChange={handleChange}>
               <option value="2021A">2021A</option>
               <option value="2021B">2021B</option>
             </select>
           </div>
 
           <div className="box">
-            <button onClick={fetchQRCodeData}>Generate QR</button>
+            <button className='btn btn-primary' onClick={fetchQRCodeData}>Generate QR</button>
           </div>
         </div>
 
@@ -152,8 +152,8 @@ const QrCode = () => {
           )}
         </div>
         <div className='col-sm-12'>
-            <div className="box-">
-                <button onClick={removeQRCodeData}>Stop QR</button>
+            <div className="px-2">
+                <button className='btn btn-danger' onClick={removeQRCodeData}>Stop QR</button>
           </div>
         </div>
       </div>

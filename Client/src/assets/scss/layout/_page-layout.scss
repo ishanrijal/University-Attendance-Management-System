@@ -1,0 +1,18 @@
+.page {
+    &__content{
+        @include flex
+    }
+    &__sidebar{
+        width: 30%;
+        max-width: 300px;
+    }
+    &__content-area{
+        background-color: #F0F4FB;
+        flex: 1;
+        padding: 24px 68px;
+        min-height: 80vh;
+        .breadcrumb-container{
+            margin-bottom: 47px;
+        }
+    }
+}

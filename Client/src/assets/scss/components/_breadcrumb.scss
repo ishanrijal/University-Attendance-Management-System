@@ -1,0 +1,18 @@
+.breadcrumb {
+    .breadcrumb__title{
+        font-size: 24px;
+        color: #4154F1;
+    }
+    .breadcrumb__path{
+        & > span{
+            font-size: 14px;
+            font-weight: 600;
+            a{
+                color: #989797;
+                &:hover {
+                    color: $link-hover-color;
+                }
+            }
+        }
+    }
+}

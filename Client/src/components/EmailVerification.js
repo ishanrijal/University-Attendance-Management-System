@@ -22,15 +22,16 @@ const EmailVerification = () => {
   const handleSendOtp = async (e) => {
     e.preventDefault();
     // Check if email is from valid domain
-    if (!email.endsWith('@sltc.ac.lk')) {
-      setError("Please enter a valid SLTC email address");
-      return;
-    }
+    // if (!email.endsWith('@sltc.ac.lk')) {
+    //   setError("Please enter a valid SLTC email address");
+    //   return;
+    // }
   
     try {
       // Generate and send OTP
       const response = await axios.post('http://localhost:3001/api/email/sendOTP', { email });
       // Log response
+      console.log(response)
       if(response.data.success){
         setEmailMessage("Please Enter the OTP");
         sessionStorage.setItem('otp', response.data.otp);

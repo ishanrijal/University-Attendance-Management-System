@@ -6,8 +6,12 @@ text-related styles.
 
 */
 
+body{
+    font-family: $body-font-family;
+}
+
 h1,h2,h3,h4,h5,h6{
-    font-family: Roboto;
+    font-family: $heading-font-family;
     font-style: normal;
 }
 h1{

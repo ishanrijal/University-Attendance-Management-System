@@ -1,0 +1,53 @@
+.matric__card{
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 30px 0px #0129701A;
+    border-radius: 5px;
+    .matric__header{
+        @include flex;
+        align-items: center;
+        margin-bottom: 14px + 8px;
+        .matric__title{
+            font-size: 18px;
+            color: #4154F1;
+            font-weight: 500;
+            padding-right: 6px;
+        }
+        .matric__stitle{
+            border-left: 2px solid #ccc;
+            font-size: 14px;
+            color: #899BBD;
+            padding-left: 6px;
+        }
+    }
+    .matric__body{
+        @include flex; 
+        align-items: center;
+        gap: 16px;
+        .matric__icon{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 64px;
+            width: 64px;
+            border-radius: 50%;
+            background-color: #ccc;
+            font-size: 24px;
+        }
+        .matric__count{
+            font-size: 28px;
+            font-weight: 700;
+            color: #4154F1;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+        .matric__type{
+            color: #6C757D;
+            font-size: 14px;
+        }
+        .matric__status{
+            font-weight: 700;
+            color: #012970;
+        }
+    }
+}

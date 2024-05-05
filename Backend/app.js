@@ -6,6 +6,12 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const app = express();
+// import all the routes here
+const userRoutes = require( './routes/userRoutes' );
+const classRoutes = require('./routes/classRoutes');
+const mailRoutes = require( './routes/mailRoutes' );  // Route to send the OTP Email
+const optVerifyRoutes = require( './routes/optVerifyRoutes' );  // Route to verify the OTP
+const attendanceRoutes = require( './routes/attendanceRoutes' );  // Route to verify the OTP
 
 // Enable Cors 
 app.use(cors());
@@ -31,8 +37,8 @@ const port = process.env.PORT || 3001;
 
 //Connecting to the mongodb
 mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-  console.log("Connected Successfully to the Database...");
+.then((con)=>{
+  console.log("Connected Successfully to the Database...",con.connection.host);
   //After Successfully connected to DB, running the Node App
   app.listen(port, () => {
     console.log(`Listening the port at ${port}`);
@@ -40,14 +46,11 @@ mongoose.connect(process.env.MONGO_URI)
 })
 .catch(error=>console.log("Connection Failed",error));
 
-// import all the routes here
-const userRoutes = require( './routes/userRoutes' );
-const mailRoutes = require( './routes/mailRoutes' );  // Route to send the OTP Email
-const optVerifyRoutes = require( './routes/optVerifyRoutes' );  // Route to verify the OTP
-const attendanceRoutes = require( './routes/attendanceRoutes' );  // Route to verify the OTP
+
 
 // use all the routes here
 app.use( '/api/user', userRoutes);
+app.use('/api/class', classRoutes);
 app.use( '/api/email', mailRoutes);
 app.use( '/api/attendance', attendanceRoutes);
 

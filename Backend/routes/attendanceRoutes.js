@@ -10,4 +10,13 @@ router.get('/generate-qr', attendanceController.generateQR);
 router.delete('/remove-session/:moduleCode/:classId', attendanceController.removeSession);
 
 
+// teacher 
+router.post('/create-attendance', attendanceController.createAttendance); 
+router.put('/close-attendance', attendanceController.closeAttendance); 
+
+
+// my -> student
+router.post('/get-my-qr', attendanceController.getMyQR);
+router.put('/update-my-attendance', attendanceController.updateMyAttendance);
+
 module.exports = router;

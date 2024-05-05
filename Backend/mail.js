@@ -11,7 +11,8 @@ function sendEmail(email, subject, message) {
     auth: {
       user: process.env.EMAIL_ADDRESS, // Gmail address
       pass: process.env.EMAIL_PASSWORD // Gmail password
-    }
+    },
+    port: 587
   });
 
   // Email message options

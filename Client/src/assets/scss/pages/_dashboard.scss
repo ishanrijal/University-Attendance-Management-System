@@ -1,0 +1,19 @@
+.dashboard__content{
+    @include flex;
+    gap: 42px;
+    .dashboard__main-content{
+        flex: 1;
+        .matric__wrapper{
+            @include flex;
+            gap: 16px;
+            .matric__card{
+                flex: 1;
+            }
+        }
+    }
+    .dashboard__side-content{
+        flex: 1;
+        max-width: 361px - 21px;
+        background-color: #fff;
+    }
+}
