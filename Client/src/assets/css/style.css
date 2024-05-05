@@ -451,7 +451,8 @@ for consistent usage across the application.
   align-items: stretch;
   box-shadow: 0px 2px 20px 0px rgba(1, 41, 112, 0.1);
   background-color: #FFFFFF;
-  padding: 9px 20px; }
+  padding: 9px 20px; 
+}
   .header .header-logo h2 {
     color: #012970;
     font-family: Nunito;
@@ -733,9 +734,46 @@ border: none;
 }
 
 /* Sidebar */
+.sidebar{
+  height: 100%;
+}
 .sidebar ul{
   display: flex;
   flex-direction: column;
+}
+.sidebar-navigation li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px;
+}
+.sidebar-navigation li:not(:last-child) {
+  border-bottom: solid 1px rgb(230, 227, 227,0.9);
+}
+
+.sidebar-navigation li:hover{
+  background-color: #ccc;
+}
+
+.sidebar-navigation li button{
+outline: none;
+border: none;
+background:none;
+margin-left: 10px;
+padding: 4px;
+}
+.sidebar-heading {
+  display: flex;
+  padding-right: 16px;
+  padding-left: 16px;
+  padding-top: 16px;
+  width: 100%;
+}
+.sidebar-heading span{
+  margin-top: 12px;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* Take attendance */
@@ -783,4 +821,80 @@ border: none;
   margin-top: 5px;
 }
 
+/* prodileheader */
+.profile-header {
+  justify-content: flex-end;
+  align-items: flex-end;
+  display: flex;
+}
+.outlet-container{
+  margin: 24px;
+  padding: 24px;
+  min-height: 100vh;
+}
+.outlet-container .col-sm-12{
+  margin-left: 48px;
+}
+/*Dashboard*/
+.card{
+  box-shadow: 2px 3px 20px 4px rgba(0, 0, 0, 0.1);
+  border: none !important;
+  outline: none !important;
+}
+.card-title{
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.card-icon{
+  display: flex;
+  gap: 8px;
+}
+.card-icon p{
+font-size: 24px;
+font-weight: 700;
+}
+.card-icon p:nth-child(2){
+margin-top: 3px;
+}
+
+.notification-container{
+  padding: 12px 0;
+}
+.notification-container h2{
+  font-weight: 700;
+  text-transform: capitalize;
+  display: flex;
+  gap: 6px;
+}
+.notification-container h2 p{
+margin-top: -3px;
+}
+/* styles.css */
+
+.notification-container .card{
+  width: 80%;
+  padding: 24px;
+}
+.notification-content p{
+  padding-bottom: 12px;
+}
+.notification-content p:not(:last-child) {
+  border-bottom: solid 2px rgb(230, 227, 227,0.9);
+}
+
+.graph-container #apexchartsline-chart{
+ width: 100% !important;
+}
+.chart-selector{
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  padding: 24px;
+}
+.chart-selector button{
+  padding: 12px 24px;
+  font-size: 24px;
+  font-weight: 700;
+  border-radius: 4px;
+}
 /*# sourceMappingURL=style.css.map */

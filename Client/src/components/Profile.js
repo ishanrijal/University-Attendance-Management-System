@@ -2,7 +2,6 @@
 import React from "react";
 import {
   Outlet,
-  Link
 } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import ProfileHeader from "./ProfileHeader";
@@ -10,13 +9,19 @@ import ProfileHeader from "./ProfileHeader";
 function Profile() {
 return(
   <>
-    <ProfileHeader/>
-    <div className="row">
-      <div className="col-sm-3">
+    <div className="row" style={{margin:0}}>
+      <div className="col-sm-2" style={{padding:'0'}}>
         <Sidebar />
       </div>
-      <div className="col-sm-9">
-        <Outlet/>
+      <div className="col-sm-10" style={{padding:'0'}}>
+        <ProfileHeader/>
+        <div className="container outlet-container">
+          <div className="row">
+            <div className="col-sm-12">
+              <Outlet/>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </>
