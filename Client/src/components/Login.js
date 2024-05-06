@@ -26,6 +26,7 @@ export default function Login() {
         // Handle login error
         if (error.response) {
           console.error('Login failed:', error.response.data.msg);
+          alert(error.response.data.msg);
         } else {
           console.error('Login failed:', error.message);
         }

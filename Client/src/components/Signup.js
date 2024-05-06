@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import Header from "./Header";
+import { useLocation, useNavigate} from "react-router-dom";
 
 import axios from 'axios';
 
 export default function Signup() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -14,6 +14,8 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole]= useState("");
+  const [degree, setDegree]= useState("");
+  const [year, setYear]= useState("");
 
   const [regNumberError, setRegNumberError]= useState(false);
   const [emailError, setEmailError]= useState(false);
@@ -48,6 +50,8 @@ export default function Signup() {
   }
   const handleFormSubmit=(e)=>{
     e.preventDefault();
+    console.log(degree)
+    console.log(year)
     
     // Reset error states
     setRegNumberError(false);
@@ -63,9 +67,11 @@ export default function Signup() {
         return ;
     }
     const registerInfo={role, firstName, lastName, regNumber, email, password}
-    axios.post( 'http://localhost:3005/api/user/register', registerInfo)
+    console.log(registerInfo);
+    axios.post( 'http://localhost:3001/api/user/register', registerInfo)
          .then(res=>{
             alert(res.data.msg);
+            navigate('/login');
           })
          .catch(error=>{
             console.log(error)
@@ -139,6 +145,33 @@ export default function Signup() {
                   placeholder="Registration Number"
                   value={regNumber}
                   onChange={(e)=> setRegNumber(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-user-container">
+                <label for="batch">Degree</label>
+                <select
+                  name="batch"
+                  value={degree}
+                  onChange={(e) => setDegree(e.target.value)}
+                  required
+                >
+                  <option value="">Select Degree</option>
+                  <option value="Bachelor of IT in Cloud Computing">Bachelor of IT in Cloud Computing</option>
+                  <option value="Bachelor of IT in Cyber Security">Bachelor of IT in Cyber Security</option>
+                  <option value="Bachelor of IT in Data Science">Bachelor of IT in Data Science</option>
+                  <option value="Bachelor of IT in Software Engineering">Bachelor of IT in Software Engineering</option>
+              </select>
+
+              </div>
+              <div className="form-user-container">
+                <label for="enroll-year">Enroll Year</label>
+                <input
+                  type="text"
+                  name="enroll-year"
+                  placeholder="Enroll Year"
+                  value={year}
+                  onChange={(e)=> setYear(e.target.value)}
                   required
                 />
               </div>

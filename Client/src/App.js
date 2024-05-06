@@ -19,6 +19,7 @@ import Profile from "./components/Profile";
 import Report from "./components/Report";
 import Attendance from "./components/Attendance";
 import QrCode from "./components/QrCode";
+import AttendanceSheet from "./components/AttendanceSheet";
 
 function App() {
   const router = createBrowserRouter(
@@ -33,6 +34,7 @@ function App() {
         <Route path="/profile/*" element={<Profile />} >
           <Route index element={<Dashboard />} />
           <Route path="attendance" element={<Attendance />} />
+          <Route path="attendance-sheet" element={<AttendanceSheet />} />
           <Route path="generate-qrscanner" element={<QrCode />} />
           <Route path="report" element={<Report />} />
         </Route>

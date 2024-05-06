@@ -70,7 +70,7 @@ export default function Dashboard() {
             </h2>
             <div className="notification-content">
               <p>You have successfully created your account.</p>
-              <p>You have successfully created your account.</p>
+              <p>Your Attendance has been recorded.</p>
             </div>
             </div>
           </div>

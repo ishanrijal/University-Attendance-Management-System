@@ -9,7 +9,7 @@ const secretKey = "a048cede314a5295d3f83f9d8b34c8e375aa7c68ae29de3ffa5908e425719
 const register= async(req,res,next)=>{
   try{
     const {role,firstName,lastName,regNumber,email,password}=req.body;
-    const regNumberCheck = await User.findOne({regNumber});
+    const regNumberCheck = await User.findOne({email});
     if( regNumberCheck ) {
      return res
             .status(400)

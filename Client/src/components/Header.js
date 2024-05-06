@@ -27,7 +27,7 @@ export default function Header() {
                   <Link to="/login"  className="nav-link" >Login</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/verify-email"  className="nav-link" >Student Registration</Link>
+                  <Link to="/verify-email"  className="nav-link" >Registration</Link>
                 </li>
               </ul>
             </div>

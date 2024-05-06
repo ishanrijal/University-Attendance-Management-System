@@ -826,6 +826,7 @@ padding: 4px;
   justify-content: flex-end;
   align-items: flex-end;
   display: flex;
+  gap: 8px;
 }
 .outlet-container{
   margin: 24px;
@@ -897,4 +898,69 @@ margin-top: -3px;
   font-weight: 700;
   border-radius: 4px;
 }
+.chart-selector button:nth-child(1){
+  background: #4154F1;
+  color: white;
+  outline: none;
+  border: none;
+}
+.chart-selector button:nth-child(1):hover{
+  background:#787fc2 ;
+}
+.chart-selector button:nth-child(2){
+  color: #4154F1;
+  background: transparent;
+  outline: none;
+  border: solid #4154F1 1px;
+}
+.chart-selector button:nth-child(2):hover{
+  background: #4154F1;
+  color: white;
+}
+
+/* Attendance Table */
+/* styles.css */
+
+/* Add some spacing and styling to the table */
+.attendance-table {
+  margin-top: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the table headers */
+.attendance-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Alternate row colors for better readability */
+.attendance-table tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+/* Center-align the content in cells */
+.attendance-table td {
+  text-align: center;
+  padding: 8px;
+}
+
+/* Highlight the "Present" status */
+.attendance-table{
+  width: 80% !important;
+}
+.attendance-table td:contains("Present") {
+  color: green;
+  font-weight: bold;
+}
+
+/* Highlight the "Absent" status */
+.attendance-table td:contains("Absent") {
+  color: red;
+  font-weight: bold;
+}
+
 /*# sourceMappingURL=style.css.map */
