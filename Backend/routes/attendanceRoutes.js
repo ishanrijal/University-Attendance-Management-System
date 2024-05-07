@@ -13,10 +13,16 @@ router.delete('/remove-session/:moduleCode/:classId', attendanceController.remov
 // teacher 
 router.post('/create-attendance', attendanceController.createAttendance); 
 router.put('/close-attendance', attendanceController.closeAttendance); 
+// Get Attendance List 
+router.get('/student-attendance-history', attendanceController.getStudentAttendanceList);
 
 
 // my -> student
 router.post('/get-my-qr', attendanceController.getMyQR);
+router.get('/get-generated-qr', attendanceController.getGeneratedQR);
 router.put('/update-my-attendance', attendanceController.updateMyAttendance);
+
+// Get Attendance List 
+router.get('/get-my-attendance', attendanceController.getMyAttendanceList);
 
 module.exports = router;

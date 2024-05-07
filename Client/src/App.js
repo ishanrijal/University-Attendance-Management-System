@@ -12,6 +12,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
+import TeacherDashboard from "./components/TeacherDashboard";
 import EmailVerification from "./components/EmailVerification";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -20,6 +21,7 @@ import Report from "./components/Report";
 import Attendance from "./components/Attendance";
 import QrCode from "./components/QrCode";
 import AttendanceSheet from "./components/AttendanceSheet";
+import CreateClass from "./components/CreateClass";
 
 function App() {
   const router = createBrowserRouter(
@@ -31,12 +33,16 @@ function App() {
           <Route path="verify-email" element={<EmailVerification />} />
           <Route path="signup" element={<Signup />} />
         </Route>
-        <Route path="/profile/*" element={<Profile />} >
+        <Route path="/student/*" element={<Profile />} >
           <Route index element={<Dashboard />} />
           <Route path="attendance" element={<Attendance />} />
-          <Route path="attendance-sheet" element={<AttendanceSheet />} />
-          <Route path="generate-qrscanner" element={<QrCode />} />
           <Route path="report" element={<Report />} />
+        </Route>
+        <Route path="/teacher/*" element={<Profile />} >
+          <Route index element={<TeacherDashboard />} />
+          <Route path="attendance-sheet" element={<AttendanceSheet />} />
+          <Route path="generate-qrscanner" element={<QrCode />} />  
+          <Route path="create-class" element={<CreateClass />} />  
         </Route>
       </Route>
     )

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { VscFileSubmodule } from "react-icons/vsc";
 import { GoGraph } from "react-icons/go";
 import { VscPercentage } from "react-icons/vsc";
@@ -7,6 +7,14 @@ import LineChart from "./LineChart";
 
 
 export default function Dashboard() {
+  const [data, setData]= useState(localStorage.getItem('attendanceInformation'));
+  const [message, setMessage]= useState(localStorage.getItem('message'));
+
+  useState(()=>{  
+    const info =JSON.parse(localStorage.getItem('attendanceInformation'))
+    setData(info);
+  },[data])
+
   return (
     <div className="login-page">
       <div className="container">
@@ -20,7 +28,7 @@ export default function Dashboard() {
                   <p>
                   <VscFileSubmodule />
                   </p>
-                  <p>140</p>
+                  <p>{data && (data.length) ? data.length : 6 }</p>
                 </div>
               </div>
             </div>
@@ -34,7 +42,7 @@ export default function Dashboard() {
                   <p>
                   <GoGraph />
                   </p>
-                  <p>140</p>
+                  <p>5</p>
                 </div>
               </div>
             </div>
@@ -48,7 +56,7 @@ export default function Dashboard() {
                   <p>
                     <VscPercentage />
                   </p>
-                  <p>80</p>
+                  <p>{((6 - 5) / 6 * 100).toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -69,8 +77,7 @@ export default function Dashboard() {
             <p>Notification</p>
             </h2>
             <div className="notification-content">
-              <p>You have successfully created your account.</p>
-              <p>Your Attendance has been recorded.</p>
+              <p>{ message && message }</p>
             </div>
             </div>
           </div>

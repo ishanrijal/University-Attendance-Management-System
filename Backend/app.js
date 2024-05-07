@@ -39,7 +39,6 @@ const port = process.env.PORT || 3001;
 mongoose.connect(process.env.MONGO_URI)
 .then((con)=>{
   console.log("Connected Successfully to the Database...",con.connection.host);
-  //After Successfully connected to DB, running the Node App
   app.listen(port, () => {
     console.log(`Listening the port at ${port}`);
   });

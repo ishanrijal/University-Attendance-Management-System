@@ -18,11 +18,11 @@ const LineChart = () => {
   const series = [
     {
       name: 'Total Lectures',
-      data: [10, 12, 13, 11], // Replace with actual lecture counts
+      data: [3, 12, 13, 11], // Replace with actual lecture counts
     },
     {
       name: 'Attendance Count',
-      data: [8, 10, 11, 9], // Replace with actual attendance counts
+      data: [3, 10, 10, 11], // Replace with actual attendance counts
     },
   ];
 

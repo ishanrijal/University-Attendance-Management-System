@@ -1,38 +1,14 @@
+// import all the controller here
+const express = require('express');
+const classController = require("../controllers/classController");
 const router = require('express').Router()
-const ClassModel = require('../models/class')
 
+// Route to generate QR code
+router.get('/get-post', classController.getModuleList);
 
-router.route('/')
-    .post(async function (req, res) {
-        try{
-            const {name, description, teacherId, students, totLec, colour} = req.body 
+router.post('/register-module', classController.createModule);
 
-            if(!name || !description || !teacherId || !students || !totLec || !colour){
-                return res.status(400).send({
-                    message: "name, description, teacherId, students, totLec, colour is required"
-                })
-            }
+//get selected modules
+router.get('/get-selected-post', classController.getSelectedModuleList);
 
-            const cls = await ClassModel.create(
-                {
-                    name,
-                    description,
-                    owner: teacherId,
-                    students,
-                    totLec,
-                    colour
-                }
-            )
-
-            res.status(201).send({
-                class: cls,
-                message: "Class created successfully!"
-            })
-        }catch(err){
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Tutorial."
-            })
-        }
-    })
-
-module.exports = router
+module.exports = router;

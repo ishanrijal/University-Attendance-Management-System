@@ -15,11 +15,14 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole]= useState("");
   const [degree, setDegree]= useState("");
+  const [school, setSchool]= useState("");
   const [year, setYear]= useState("");
 
   const [regNumberError, setRegNumberError]= useState(false);
   const [emailError, setEmailError]= useState(false);
   const [passwordError, setPasswordError]= useState(false);
+  
+  const [isTeacher, setIsTeacher]= useState(false);
 
   useEffect(() => {
     // Access email from location state
@@ -27,6 +30,14 @@ export default function Signup() {
       setEmail(location.state.email);
     }
   }, [location.state]);
+
+  useEffect(() => {
+    if (role=="teacher") {
+      setIsTeacher(true);
+    }else{
+      setIsTeacher(false);
+    }
+  }, [role,isTeacher]);
 
   const handleEmail=(e)=>{
         setEmail(e.target.value);
@@ -49,34 +60,61 @@ export default function Signup() {
     })
   }
   const handleFormSubmit=(e)=>{
-    e.preventDefault();
-    console.log(degree)
-    console.log(year)
-    
+    e.preventDefault();    
     // Reset error states
     setRegNumberError(false);
     setEmailError(false);
     setPasswordError(false);
-    if( !role || !firstName || !lastName || !regNumber || !email || (password !== confirmPassword) ){
-        if( !role ) return;
-        if( !firstName ) return;
-        if( !lastName ) return;
-        if( !regNumber ) return;
-        if( !email ) setEmailError(true);
-        if( password !== confirmPassword ) setPasswordError(true);
-        return ;
+
+    if( role=='student' ){
+      if( !role || !firstName || !lastName || !regNumber || !email || !degree || !year || (password !== confirmPassword) ){
+          if( !role ) return;
+          if( !firstName ) return;
+          if( !lastName ) return;
+          if( !regNumber ) return;
+          if( !degree ) return;
+          if( !year ) return;
+          if( !email ) setEmailError(true);
+          if( password !== confirmPassword ) setPasswordError(true);
+          return ;
+      }
+      const registerInfo={role, firstName, lastName, regNumber, email, password, degree, year}
+
+      axios
+          .post( 'http://localhost:3001/api/user/register', registerInfo)
+          .then(res=>{
+              alert(res.data.msg);
+              navigate('/login');
+            })
+          .catch(error=>{
+              console.log(error)
+              alert(error.response.data.msg);
+            });
     }
-    const registerInfo={role, firstName, lastName, regNumber, email, password}
-    console.log(registerInfo);
-    axios.post( 'http://localhost:3001/api/user/register', registerInfo)
-         .then(res=>{
-            alert(res.data.msg);
-            navigate('/login');
-          })
-         .catch(error=>{
-            console.log(error)
-            alert(error.response.data.msg);
-          });
+    if( role==='teacher' ){
+      if( !role || !firstName || !lastName || !regNumber || !email || !school || (password !== confirmPassword) ){
+          if( !role ) return;
+          if( !firstName ) return;
+          if( !lastName ) return;
+          if( !regNumber ) return;
+          if( !school ) return;
+          if( !year ) return;
+          if( !email ) setEmailError(true);
+          if( password !== confirmPassword ) setPasswordError(true);
+          return ;
+      }
+      const registerInfo={role, firstName, lastName, regNumber, email, password, school}
+
+      axios
+          .post( 'http://localhost:3001/api/user/register', registerInfo)
+          .then(res=>{
+              alert(res.data.msg);
+              navigate('/login');
+            })
+          .catch(error=>{
+              alert(error.response.data.msg);
+            });
+    }
   }
 
   return (
@@ -137,7 +175,7 @@ export default function Signup() {
                   required
                 />
               </div>
-              <div className="form-user-container">
+              <div className="form-user-container" style={{display: ! isTeacher ? 'flex' : 'none' }}>
                 <label for="reg-number">Registration Number</label>
                 <input
                   type="text"
@@ -145,26 +183,47 @@ export default function Signup() {
                   placeholder="Registration Number"
                   value={regNumber}
                   onChange={(e)=> setRegNumber(e.target.value)}
-                  required
                 />
               </div>
-              <div className="form-user-container">
+              <div className="form-user-container" style={{display: isTeacher ? 'flex' : 'none' }}>
+                <label for="teacher-id">Teacher ID</label>
+                <input
+                  type="text"
+                  name="teacher-id"
+                  placeholder="Teacher ID"
+                  value={regNumber}
+                  onChange={(e)=> setRegNumber(e.target.value)}
+                />
+              </div>
+              <div className="form-user-container" style={{display: ! isTeacher ? 'flex' : 'none' }}>
                 <label for="batch">Degree</label>
                 <select
                   name="batch"
                   value={degree}
                   onChange={(e) => setDegree(e.target.value)}
-                  required
                 >
                   <option value="">Select Degree</option>
                   <option value="Bachelor of IT in Cloud Computing">Bachelor of IT in Cloud Computing</option>
                   <option value="Bachelor of IT in Cyber Security">Bachelor of IT in Cyber Security</option>
                   <option value="Bachelor of IT in Data Science">Bachelor of IT in Data Science</option>
                   <option value="Bachelor of IT in Software Engineering">Bachelor of IT in Software Engineering</option>
-              </select>
-
+                </select>
               </div>
-              <div className="form-user-container">
+              <div className="form-user-container" style={{display: isTeacher ? 'flex' : 'none' }}>
+                <label for="faculty">Faculty</label>
+                <select
+                  name="faculty"
+                  value={school}
+                  onChange={(e) => setSchool(e.target.value)}
+                >
+                  <option value="">Select School</option>
+                  <option value="IT School">IT & Cloud Computing</option>
+                  <option value="Business School">Business School</option>
+                  <option value="Engineering School">Engineering School</option>
+                  <option value="Music School">Music School</option>
+                </select>
+              </div>
+              <div className="form-user-container" style={{display: ! isTeacher ? 'flex' : 'none' }}>
                 <label for="enroll-year">Enroll Year</label>
                 <input
                   type="text"
@@ -172,13 +231,12 @@ export default function Signup() {
                   placeholder="Enroll Year"
                   value={year}
                   onChange={(e)=> setYear(e.target.value)}
-                  required
                 />
               </div>
               <div className="form-user-container">
                 <label for="email">Email</label>
                 <input
-                  disabled
+                  /// disabled={!isTeacher}
                   type="email"
                   name="email"
                   placeholder="Email"

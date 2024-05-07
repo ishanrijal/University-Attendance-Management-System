@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import Header from "./Header";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Dashboard from "./Dashboard";
 
 export default function Login() {
   const [role, setRole]         = useState("");
@@ -15,13 +13,17 @@ export default function Login() {
     if( role && username && password ){
       try {
         const response = await axios.post('http://localhost:3001/api/user/login', { username, password });
-        const { token } = response.data;
-
-        // Store the token in localStorage (need to change to session storage)
-        localStorage.setItem('token', token); 
+        const { token,...other } = response.data;
 
         // Redirect
-        navigate('/dashboard');
+        if( token ){
+          // Store the token in localStorage (need to change to session storage)
+          localStorage.setItem('token', token ); 
+          localStorage.setItem('data', JSON.stringify(other)); 
+          localStorage.setItem('message', 'You have successfully logged in.' ); 
+          if(role=='student') navigate('/student',{ state: other });
+          if(role=='teacher') navigate('/teacher',{ state: other });
+        }
       } catch (error) {
         // Handle login error
         if (error.response) {

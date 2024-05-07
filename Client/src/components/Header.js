@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
   Link,
-  Outlet,
-  RouterProvider,
 } from "react-router-dom";
 
 export default function Header() {

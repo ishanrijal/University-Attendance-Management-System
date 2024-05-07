@@ -17,6 +17,9 @@ your entire React application.
 *::after {
   box-sizing: border-box; }
 
+  body{
+    overflow-y: none;
+  }
 /*
 This removes any browser-specific default styles and ensures 
 you’re working with a clean slate, providing consistent 
@@ -530,7 +533,7 @@ for consistent usage across the application.
   }
 
   footer{
-    margin-top: auto;
+    margin-top: 40px;
     padding-bottom: 16px;
   }
   .info-box{
@@ -779,7 +782,7 @@ padding: 4px;
 /* Take attendance */
 .attendance-box-container{
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
 } 
 
 .box {
@@ -797,7 +800,13 @@ padding: 4px;
 }
 .timer-container {
   display: flex;
-  justify-content: center;
+}
+.otp-container{
+  padding: 0px;
+  flex-direction: column;
+}
+.otp-container h2{
+  padding: 32px;
 }
 
 .timer-box {
@@ -826,7 +835,39 @@ padding: 4px;
   justify-content: flex-end;
   align-items: flex-end;
   display: flex;
+}
+.profile-header
+.profile-name {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+}
+.profile-header
+.profile-name
+p {
+  padding: 0;
+  margin: 0;
+  gap: 0;
+  font-size: 16px;
+}
+.profile-header
+.profile-name
+p:nth-child(1) {
+  display: flex;
   gap: 8px;
+  font-weight: 700;
+}
+.profile-header
+.profile-name
+p:nth-child(2) {
+  display: flex;
+  justify-content: flex-end;
+  text-transform: capitalize;
+  color: rgb(20, 20, 20,0.6);
+  font-weight: 500;
 }
 .outlet-container{
   margin: 24px;
@@ -961,6 +1002,10 @@ margin-top: -3px;
 .attendance-table td:contains("Absent") {
   color: red;
   font-weight: bold;
+}
+
+.notification-text{
+  text-transform: capitalize;
 }
 
 /*# sourceMappingURL=style.css.map */

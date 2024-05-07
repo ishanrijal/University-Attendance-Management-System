@@ -7,62 +7,64 @@ const UserModel = require('../models/user');
 
 exports.createAttendance = async (req, res) => {
   const otp = generateOTP()
-  const {classId, teacherId} = req.body
-  try{
+  const {teacherID, moduleCode} = req.body.params
 
+  try{
+    const teacher = await UserModel.findOne({
+      regNumber: teacherID,
+      role: 'teacher'
+    });
+    if (!teacher) {
+      return res.status(404).json({ error: 'Teacher not found.' });
+    }
+    const existingClass = await ClassModel.findOne({
+      classCode: moduleCode,
+    });
+    if (!existingClass) {
+      return res.status(404).json({ error: 'Class not found.' });
+    }
+    
     const ongoingAttendance = await AttendanceModel.findOne({
-      teacherId: teacherId,
-      classId: classId,
+      teacherId: teacher._id,
+      classId: existingClass._id,
       status: 'pending'
     })
 
-    if(ongoingAttendance){
+    if(ongoingAttendance ){
       return res.status(400).json({ error: 'Attendance already started, Please close previous attendance to start new. ' })
     }
 
-    const teacher = await UserModel.findOne({
-      _id: teacherId,
-      role: 'teacher'
-    })
-
-    if(!teacher) {
-      return res.status(404).json({ error: 'Teacher not found or only teacher can start attendance' })
-    }
-
-    const existingClass = await ClassModel.findById(classId)
-
-    if(!existingClass){
-      return res.status(404).json({ error: 'Class not found' })
-    }
-
     const attendanceObj = {
-      classId: classId,
-      teacherId: teacherId,
+      classId: existingClass._id,
+      teacherId: teacher._id,
       otp: otp,
       date: new Date(),
       status: 'pending',
-      students: existingClass.students.map((students) => {
-        return {
-          studentId: students._id,
-          status: 'pending',
-        } 
-      })
     }
+
+      // students: existingClass.students.map((students) => {
+      //   return {
+      //     studentId: students._id,
+      //     status: 'pending',
+      //   } 
+      // })
+
     const attendance = new AttendanceModel(attendanceObj)
-    
+
     const qrCode = await qr.toDataURL(attendance.toString())
 
     attendance.qrCode = qrCode
-    
-    await attendance.save()
+
+    await attendance.save()  
 
     res.status(200).json({ attendance, message: 'QR code generated successfully' })
   }catch(err) {
+    console.log("Error")
     res.status(500).json({ error: 'QR code generation failed' })
   }
 }
 
-exports.closeAttendance = async (req, res) => {
+exports.closeAttendance = async (req, res) => {;
   try{
     const {classId, teacherId, attendanceId} = req.body
 
@@ -79,11 +81,20 @@ exports.closeAttendance = async (req, res) => {
       return res.status(404).json({ error: 'Attendance is already closed!' })
     }
 
-    if(attendance.classId.toString() !== classId.toString()){
+    const existingClass = await ClassModel.findOne({
+      classCode: classId,
+    });
+   
+    if(attendance.classId.toString() !== existingClass._id.toString()){
       return res.status(404).json({ error: 'This attendance doenot belong to this class' })
     }
 
-    if(attendance.teacherId.toString() !== teacherId.toString()){
+    const teacher = await UserModel.findOne({
+      regNumber: teacherId,
+      role: 'teacher'
+    });
+
+    if(attendance.teacherId.toString() !== teacher._id.toString()){
       return res.status(404).json({ error: 'You are not authorized to close this attendance' })
     }
 
@@ -95,9 +106,7 @@ exports.closeAttendance = async (req, res) => {
         remark: student.remark
       }
     })
-
-    await attendance.save()
-    
+    await attendance.save()    
     res.status(200).json({ attendance, message: 'Attendance has been successfully closed!' })
   }catch(err) {
     res.status(500).json({ error: 'Failed to close attendance, Something went wrong!' })
@@ -125,7 +134,6 @@ exports.getMyQR = async (req, res) => {
     }
 
     let attendance = await AttendanceModel.findOne({
-      teacherId: cls.owner,
       classId: classId,
       status: 'pending'
     })
@@ -133,19 +141,37 @@ exports.getMyQR = async (req, res) => {
     if(!attendance){
       return res.status(404).json({ error: 'Attendance may be already closed!' })
     }
-
-    const isValidStudent = attendance.students.find(student => student.studentId.toString() === studentId.toString())
-
-    if(!isValidStudent){
-      return res.status(404).json({ error: 'Student not found in this class' })
-    }
-
-    res.status(200).json({ qrCode: attendance.qrCode })
+    res.status(200).json({ qrCode: attendance.qrCode, id: attendance._id, otp:attendance.otp })
 
   }catch {
     res.status(500).json({ error: 'Something went wrong!' })
   }
 }
+
+exports.getGeneratedQR = async (req, res) => {
+  try{
+    const { attendanceId } = req.query
+
+    if( ! attendanceId ){
+      return res.status(400).json({ error: 'No attendance Session...' })
+    }
+
+    let attendance = await AttendanceModel.findById( attendanceId );
+
+    if( attendance.status == "complete" ){
+      return res.status(200).json({ status: "complete" })
+    }
+
+    if( attendance.status == "pending" ){
+      return res.status(200).json({ status: "pending" })
+    }
+
+  }catch {
+    res.status(500).json({ error: 'Something went wrong!' })
+  }
+}
+
+
 exports.updateMyAttendance = async (req, res) => {
   try{
     const { studentId, attendanceId, otp} = req.body 
@@ -174,23 +200,13 @@ exports.updateMyAttendance = async (req, res) => {
       return res.status(404).json({ error: 'Invalid OTP, Please try agian later!' })
     }
 
-    const isValidStudent = attendance.students.find(student => student.studentId.toString() === studentId.toString())
-
-    if(!isValidStudent){
-      return res.status(404).json({ error: 'Student not found in this class' })
-    }
-
-    attendance.students = attendance.students.map((student) => {
-      if(student.studentId.toString() === studentId.toString()){
-        return {
-          studentId: student.studentId,
-          status: student.status === 'pending' ? 'present' : student.status,
-          remark: student.remark
-        }
-      }
-      return student
-    })
-
+    // Push a new student object into the students array
+    attendance.students.push({
+      studentId: studentId,
+      status: 'present',
+      remarks: ''
+    });
+    
     await attendance.save()
 
     res.status(200).json({ attendance, message: 'Attendance updated successfully' })
@@ -201,11 +217,59 @@ exports.updateMyAttendance = async (req, res) => {
   }
 }
 
+exports.getMyAttendanceList = async (req, res) => {
+  const studentId =req.query.studentId
+  try {
+      const student = await UserModel.findById( studentId )
+
+      if(!student){
+        return res.status(404).json({ error: 'Student not found' })
+      }
+      const fullName = `${student.firstName} ${student.lastName}`
+
+      AttendanceModel.find({'students.studentId': studentId})
+      .then(attendanceRecords => {
+        if (!attendanceRecords || attendanceRecords.length === 0) {
+          console.log('No attendance records found for student ID:', studentId);
+          return;
+        }
+        res.status(200).json({records: attendanceRecords, studentName: fullName });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get attendance list' });
+    }
+}
+
+exports.getStudentAttendanceList = async (req, res) => {
+  const teacherId =req.query.teacherId
+  try {
+      const teacher = await UserModel.findById( teacherId )
+
+      if(!teacher){
+        return res.status(404).json({ error: 'Teacher not found' })
+      }
+
+      AttendanceModel.find({'teacherId': teacherId})
+      .then(attendanceRecords => {
+        if (!attendanceRecords || attendanceRecords.length === 0) {
+          console.log('No attendance records found for student ID:', studentId);
+          return;
+        }
+        res.status(200).json({records: attendanceRecords });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get attendance list' });
+    }
+}
 
 
-
-
-
+/* My OLD Code */
 exports.generateQR = async (req, res) => {
   const sessionInfo = generateOTP(); // Customize as needed
   const uri = process.env.MONGO_URI;
@@ -243,8 +307,6 @@ exports.generateQR = async (req, res) => {
 
 exports.removeSession = async (req, res) => {
   try {
-    console.log(req.params);
-    console.log(req.query);
     const { moduleCode, classId } = req.params;
     const uri = process.env.MONGO_URI;
 
